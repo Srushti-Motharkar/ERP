@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Back</title>
+    <!-- Import Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Import FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box; 
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;   
+        }
+
+        body {
+            /* Modern Animated Gradient Background */
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            overflow: hidden; 
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; } 
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Card Effect */
+        .login-card {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 420px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .login-header img {
+            height: 100px;
+            width: 200px;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .login-header h1 {
+            color: #333;
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+           
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            transition: color 0.3s;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 14px 14px 45px; /* Padding left for icon */
+            border: 2px solid transparent;
+            background: #f0f2f5;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            background: white;
+            border-color: #23a6d5;
+            box-shadow: 0 0 0 4px rgba(35, 166, 213, 0.1);
+        }
+
+        .input-group input:focus + i {
+            color: #23a6d5;
+        }
+
+        .remember-me {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .remember-me label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Custom Checkbox */
+        .remember-me input[type="checkbox"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            margin-right: 8px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .remember-me input[type="checkbox"]:checked {
+            background-color: #23a6d5;
+            border-color: #23a6d5;
+        }
+
+        .remember-me input[type="checkbox"]:checked::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: white;
+            font-size: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .forgot-pass {
+            color: #23a6d5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .forgot-pass:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #23a6d5, #23d5ab);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(35, 166, 213, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(35, 166, 213, 0.6);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            width: 320px;
+            transform: scale(0.7);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .modal h3 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .modal p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .modal-btn {
+            background: #333;
+            color: white;
+            padding: 10px 40px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+        
+        .modal-btn:hover {
+            background: #000;
+        }
+
+        /* Floating shapes for background decoration */
+        .shape {
+            position: absolute;
+            filter: blur(50px);
+            z-index: -1;
+            animation: float 6s ease-in-out infinite;
+        }
+        .shape-1 {
+            top: -10%;
+            left: -10%;
+            width: 300px;
+            height: 300px;
+            background: #ff9a9e;
+            border-radius: 50%;
+        }
+        .shape-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 350px;
+            height: 350px;
+            background: #a18cd1;
+            border-radius: 50%;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Decoration Shapes -->
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+
+    <div class="login-card">
+        <div class="login-header">
+            <!-- Ensure this path is correct or use a placeholder -->
+            <img src="/images/psk_logo.jpg" alt="Logo" onerror="this.src='https://via.placeholder.com/200x80?text=PSK+Logo'"/>
+            <h1>Login</h1>
+            <p>Please enter your details to sign in</p>
+        </div>
+        
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username" required>
+                <i class="fas fa-user"></i>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required>
+                <i class="fas fa-lock"></i>
+            </div>
+
+            <div class="remember-me">
+                <label for="rememberMe">
+                    <input type="checkbox" id="rememberMe"> Remember me
+                </label>
+                <a href="#" class="forgot-pass">Forgot Password?</a>
+            </div>
+
+            <button type="submit">Sign In</button>
+        </form>
+    </div>
+
+    <!-- Success Pop-up Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon" style="color: #28a745;">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Success!</h3>
+            <p>Redirecting to dashboard...</p>
+            <button class="modal-btn" onclick="closeModal()">Continue</button>
+        </div>
+    </div>
+
+    <!-- Error Pop-up Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon" style="color: #dc3545;">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <h3>Access Denied</h3>
+            <p id="errorText">Invalid username or password!</p>
+            <button class="modal-btn" onclick="closeErrorModal()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Check for "Remember Me" on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedUsername = localStorage.getItem('rememberedUser');
+            if (savedUsername) {
+                document.getElementById('username').value = savedUsername;
+                document.getElementById('rememberMe').checked = true;
+            }
+        });
+
+        // 2. Handle Form Submission
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            // ✅ Credentials
+            const correctUsername = "gaytri";
+            const correctPassword = "gaytri@123";
+
+            // Check if username exists AND password matches
+            if (username === correctUsername && password === correctPassword) {
+                
+                // Handle "Remember Me"
+                if (rememberMe) {
+                    localStorage.setItem('rememberedUser', username);
+                } else {
+                    localStorage.removeItem('rememberedUser');
+                }
+
+                // Show Success Pop-up
+                const modal = document.getElementById('successModal');
+                modal.style.display = 'flex';
+                // Small delay to allow display:flex to apply before opacity transition
+                setTimeout(() => modal.classList.add('show'), 10);
+
+            } else {
+                // Show Error Pop-up
+                document.getElementById('errorText').textContent = 'Invalid username or password!';
+                const modal = document.getElementById('errorModal');
+                modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('show'), 10);
+            }
+        });
+
+        // 3. Close Success Modal and Redirect
+        function closeModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                window.location.href = "dashbtn.html";
+            }, 300);
+        }
+
+        // 4. Close Error Modal
+        function closeErrorModal() {
+            const modal = document.getElementById('errorModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            }, 300);
+        }
+    </script>
+</body>
+</html>
